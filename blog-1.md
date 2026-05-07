@@ -39,7 +39,7 @@ console.log(value.toUpperCase()); //Error
 let value: unknown = "Hello TypeScript";
 if (typeof value === "string") {  
     console.log(value.toUpperCase()); //  Safe
-    }
+}
 
 এখানে typeof value === "string" check করার মাধ্যমে TypeScript বুঝতে পারে যে value আসলে string। এরপর নিরাপদভাবে toUpperCase() method ব্যবহার করা যায়।
 এই কারণে unknown কে any থেকে safer choice বলা হয়। কারণ এটি type checking বজায় রাখে এবং runtime bug হওয়ার ঝুঁকি কমিয়ে code-কে আরও নিরাপদ করে তোলে।
