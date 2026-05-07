@@ -4,7 +4,7 @@ const filterEvenNumbers = (numbers: number[]): number[] => {
     return numbers.filter(num => num % 2 === 0) 
 }
 
-console.log(filterEvenNumbers([1, 2, 3, 4, 5, 6]));
+// console.log(filterEvenNumbers([1, 2, 3, 4, 5, 6]));
 
 
 
@@ -19,7 +19,7 @@ const reverseString = (value: string): string => {
     return reversed;
 }
 
-console.log(reverseString("typescript"));
+// console.log(reverseString("typescript"));
 
 
 
@@ -28,13 +28,13 @@ console.log(reverseString("typescript"));
 const checkType = (value: string | number) => {
     if(typeof value === "string"){
         return "String";
-    }else if( typeof value === "number"){
+    }else{
         return "Number";
     }
 }
 
-console.log(checkType("Hello"));
-console.log(checkType(42));
+// console.log(checkType("Hello"));
+// console.log(checkType(42));
 
 
 
@@ -47,7 +47,7 @@ const getProperty = <T , K extends keyof T>(value: T , key: K)  => {
 }
 const user = { id: 1, name: "John Doe", age: 21 };
 
-console.log(getProperty(user, "name"));
+// console.log(getProperty(user, "name"));
 
 
 
@@ -70,7 +70,7 @@ const toggleReadStatus = (book: Book) => {
 
 const myBook = { title: "TypeScript Guide", author: "Jane Doe", publishedYear: 2024 };
 
-console.log(toggleReadStatus(myBook));
+// console.log(toggleReadStatus(myBook));
 
 
 
@@ -105,7 +105,7 @@ class Student extends Person {
 const student = new Student("Alice", 20, "A");
 
 
-console.log(student.getDetails());
+// console.log(student.getDetails());
 
 
 
@@ -119,4 +119,4 @@ const getIntersection = (arr1: number[], arr2: number[]) => {
     return arr1.filter(num => set.has(num))
 }
 
-console.log(getIntersection([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]));
+// console.log(getIntersection([1, 2, 3, 4, 5], [3, 4, 5, 6, 7]));

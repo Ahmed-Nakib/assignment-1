@@ -1,77 +1,46 @@
-TypeScript Generics: Reusable এবং Strictly Typed Code
+TypeScript: Pick & Omit (Utility Types Explained)
 
-TypeScript-এ Generics এমন একটি শক্তিশালী ফিচার যা আমাদের flexible কিন্তু type-safe code লেখার সুযোগ দেয়। এর মাধ্যমে আমরা এমন function বা component তৈরি করতে পারি যা যেকোনো ধরনের data এর সাথে কাজ করতে পারে, কিন্তু TypeScript এর type safety কোনোভাবেই নষ্ট হয় না।
+TypeScript এ Pick এবং Omit হলো দুইটি গুরুত্বপূর্ণ utility type, যেগুলো বড় interface থেকে প্রয়োজন অনুযায়ী নতুন type তৈরি করতে সাহায্য করে। এর মাধ্যমে একই interface বারবার লিখতে হয় না এবং কোড আরও clean থাকে।
 
-Generics ছাড়া সমস্যা
+এগুলো মূলত DRY (Don’t Repeat Yourself) principle follow করতে সাহায্য করে, যার মাধ্যমে code duplication কমে যায়।
 
-Generics ব্যবহার না করলে প্রতিটি আলাদা data type এর জন্য আলাদা আলাদা function লিখতে হয়। এতে code বারবার repeat হয় এবং বড় project এ এগুলো manage করা অনেক কঠিন হয়ে যায়।
+1| Pick কী ?
 
-নিচের উদাহরণটি দেখলে বিষয়টি আরও পরিষ্কার হবে:
+Pick ব্যবহার করে একটি বড় interface থেকে নির্দিষ্ট কিছু property নির্বাচন করা হয়। অর্থাৎ আমরা শুধু প্রয়োজনীয় field গুলোই নেই।
 
-function getString(value: string): string {
-  return value;
-}
+type PublicUser = Pick<User, "id" | "name" | "email">;
 
-function getNumber(value: number): number {
-  return value;
-}
+এখানে User interface থেকে শুধু id, name এবং email নেওয়া হয়েছে। বাকি property গুলো বাদ দেওয়া হয়েছে।
+সহজভাবে বললে, Pick মানে হলো প্রয়োজন অনুযায়ী নির্দিষ্ট অংশ বেছে নেওয়া।
 
-এখানে দেখা যাচ্ছে একই কাজ শুধু type আলাদা হওয়ার কারণে আলাদা আলাদা function লিখতে হচ্ছে। এটা code duplication বাড়িয়ে দেয়।
 
-Generics দিয়ে সমাধান
+2| Omit কী ?
 
-Generics ব্যবহার করলে একটাই function দিয়ে সব ধরনের data handle করা যায়।
+Omit হলো Pick এর বিপরীত। এটি একটি interface থেকে নির্দিষ্ট কিছু property বাদ দিয়ে বাকি সব কিছু নিয়ে আসে।
 
-নিচের উদাহরণটি দেখলে বিষয়টি আরও পরিষ্কার হবে:
+type SafeUser = Omit<User, "password">;
 
-function getValue<T>(value: T): T {
-  return value;
-}
+এখানে password বাদ দেওয়া হয়েছে এবং বাকি সব property রাখা হয়েছে।
+সহজভাবে বললে, Omit মানে হলো প্রয়োজন না থাকা অংশ বাদ দেওয়া।
 
-এখানে T হলো একটি type placeholder। অর্থাৎ ভবিষ্যতে যেকোনো type এখানে আসতে পারে।
+কেন Pick এবং Omit ব্যবহার করা হয়
+বড় application এ একই interface বিভিন্ন জায়গায় ভিন্নভাবে ব্যবহার করতে হয়। সবসময় নতুন করে interface লেখা ঠিক না। তাই Pick এবং Omit ব্যবহার করে প্রয়োজন অনুযায়ী ছোট type তৈরি করা হয়।
 
-ব্যবহার:
-const a = getValue<string>("Hello");
-const b = getValue<number>(100);
 
-TypeScript নিজেই বুঝে নেয় কোন জায়গায় কোন type ব্যবহার হচ্ছে, তাই extra code লিখতে হয় না এবং type safety বজায় থাকে।
+এর প্রধান সুবিধাগুলো হলো:
 
-বাস্তব উদাহরণ: API Response
+কোড বারবার লিখতে হয় না
+একই interface থেকে বিভিন্ন version তৈরি করা যায়
+কোড clean এবং readable থাকে
+maintain করা সহজ হয়
+DRY principle follow করা যায়
 
-Real-world application এ API থেকে বিভিন্ন ধরনের data আসে। Generics ব্যবহার করলে এই বিভিন্ন response সহজে handle করা যায়।
 
-type ApiResponse<T> = {
-  data: T;
-  success: boolean;
-};
 
-type User = {
-  id: number;
-  name: string;
-};
-
-type UserResponse = ApiResponse<User>;
-
-এখানে একই structure ব্যবহার করা হয়েছে, শুধু data এর type পরিবর্তন করা হয়েছে।
-
-Array এর ক্ষেত্রে ব্যবহার
-function getFirst<T>(arr: T[]): T {
-  return arr[0];
-}
-
-const x = getFirst([1, 2, 3]);
-const y = getFirst(["a", "b", "c"]);
-
-একই function দিয়ে number এবং string দুটো array-ই safely handle করা যাচ্ছে।
-
-Generics এর উপকারিতা:
-একই code বারবার লিখতে হয় না
-Code reuse করা যায়
-Type safety বজায় থাকে
-বড় project সহজে manage করা যায়
-Code আরও clean এবং scalable হয়
+সহজভাবে মনে রাখার নিয়ম
+Pick মানে প্রয়োজনীয় অংশ নেওয়া
+Omit মানে অপ্রয়োজনীয় অংশ বাদ দেওয়া
 
 
 শেষ কথা
-
-Generics হলো TypeScript-এর একটি core concept। এটা ভালোভাবে বুঝতে পারলে  এমন code লিখতে পারব যা একদিকে flexible, আবার অন্যদিকে পুরোপুরি type-safe। এর ফলে code হবে আরও professional, reusable এবং production-ready।
+Pick এবং Omit TypeScript-এর খুব গুরুত্বপূর্ণ utility type। এগুলো ব্যবহার করলে বড় project এ code reuse করা সহজ হয় এবং একই সাথে type safety বজায় থাকে। এর ফলে code আরও structured, clean এবং scalable হয়।
